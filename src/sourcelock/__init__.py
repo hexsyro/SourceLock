@@ -1,4 +1,4 @@
-"""sourcelock — audit enriched datasets for the bugs pipelines keep shipping."""
+"""sourcelock — catch AI-summary claims the source posts never supported."""
 
 from sourcelock.logic import SourceLockLogic, run
 
