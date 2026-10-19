@@ -1,4 +1,4 @@
-﻿"""Command-line interface for SourceLock.
+"""Command-line interface for SourceLock.
 
 Exit codes:
   0 — ran successfully (findings may or may not be present)

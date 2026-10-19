@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sourcelock"
 version = "0.1.0"
-description = "Catch sentiment scores computed with the wrong language model: Claim verification, mismatch flags, weak-model warnings, and code-switching detection."
+description = "Verify AI-generated claims against source text: TF-IDF cosine similarity, negation-aware gating, and traceable findings."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "hexsyro", email = "hexsyro@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = []
-keywords = ["sentiment", "language-detection", "data-quality", "nlp", "i18n", "audit"]
+keywords = ["ai", "hallucination", "claim-verification", "data-quality", "nlp", "audit"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -28,8 +28,8 @@ dev = ["pytest>=7"]
 sourcelock = "sourcelock.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/hexsyro/sourcelock"
-Repository = "https://github.com/hexsyro/sourcelock"
+Homepage = "https://github.com/hexsyro/SourceLock"
+Repository = "https://github.com/hexsyro/SourceLock"
 
 [tool.setuptools.packages.find]
 where = ["src"]

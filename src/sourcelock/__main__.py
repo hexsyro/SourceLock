@@ -1,6 +1,6 @@
 import sys
 
-from enrichaudit.cli import main
+from sourcelock.cli import main
 
 if __name__ == "__main__":
     sys.exit(main())

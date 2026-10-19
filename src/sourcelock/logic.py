@@ -1,4 +1,4 @@
-﻿"""SourceLock â€” hallucination check for AI-generated summaries.
+"""SourceLock — hallucination check for AI-generated summaries.
 
 Verifies that each claim in a summary is actually supported by real text in
 the source posts it claims to be drawn from, returning a confidence score per
@@ -110,7 +110,7 @@ class SourceLockLogic:
             if not source_raw:
                 skipped += 1
                 warnings.append(
-                    f"No source text found for claim '{claim_raw[:60]}â€¦' "
+                    f"No source text found for claim '{claim_raw[:60]}…' "
                     "(add a source_posts / sources column)."
                 )
                 continue
@@ -135,7 +135,7 @@ class SourceLockLogic:
                             "field": "claim",
                             "message": (
                                 f"Claim '{claim[:90]}' differs from its best source match "
-                                "in negation â€” similarity scores can't tell 'we released' "
+                                "in negation — similarity scores can't tell 'we released' "
                                 "from 'we did not release'. Verify manually."
                             ),
                             "record_id": record_id,
