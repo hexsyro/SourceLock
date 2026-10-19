@@ -219,17 +219,20 @@ def load_rows(path: str | Path) -> list[dict]:
         raise ValueError(f"{p}: CSV file has no header row")
     return [dict(row) for row in reader]
 
-import re
 
 STOPWORDS = set()
+
 
 def tokenize(text: str) -> list[str]:
     return re.findall(r"[a-z0-9']+", text.lower())
 
+
 def tokens(text: str) -> set[str]:
     return {t for t in tokenize(text) if len(t) > 1}
 
+
 def jaccard(a: set[str], b: set[str]) -> float:
-    if not a or not b: return 0.0
+    if not a or not b:
+        return 0.0
     return len(a & b) / len(a | b)
 

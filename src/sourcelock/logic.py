@@ -12,8 +12,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from sourcelock.common import ToolResult
-from sourcelock.common import as_str, find_id, get, tokenize
+from sourcelock.common import ToolResult, as_str, find_id, get, tokenize
 from sourcelock.stats import TfIdf
 
 CLAIM_COLUMNS = ["claim", "summary", "claim_text", "statement", "claim_sentence", "assertion"]
