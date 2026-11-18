@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sourcelock"
-version = "0.1.0"
-description = "Verify AI-generated claims against source text: TF-IDF cosine similarity, negation-aware gating, and traceable findings."
+version = "0.2.0"
+description = "Verify AI-generated claims against source text: atomic subclaims, TF-IDF cosine similarity, negation-aware gating, groundedness signals, and traceable findings."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "hexsyro", email = "hexsyro@gmail.com" }]
@@ -36,6 +36,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 
 
 [tool.ruff]

@@ -49,42 +49,67 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="T",
         help="minimum similarity to consider a claim supported (default: 0.30)",
     )
+    parser.add_argument(
+        "--min-claim-chars",
+        type=int,
+        metavar="N",
+        help="minimum characters for a claim/subclaim to be checked (default: 4)",
+    )
     parser.add_argument("--version", action="version", version=f"{TOOL} {__version__}")
     return parser
+
+
+def _validate_option_types(options: dict[str, Any], source: str) -> None:
+    """Reject wrong-typed option values early so the CLI can exit 2 clearly."""
+    if "threshold" in options:
+        value = options["threshold"]
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"{source}: 'threshold' must be a number, got {type(value).__name__}: {value!r}")
+    if "min_claim_chars" in options:
+        value = options["min_claim_chars"]
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise ValueError(
+                f"{source}: 'min_claim_chars' must be an integer, got {type(value).__name__}: {value!r}"
+            )
 
 
 def _merge_options(args: argparse.Namespace) -> dict[str, Any]:
     options: dict[str, Any] = {}
     if args.config:
-        parsed = json.loads(Path(args.config).read_text(encoding="utf-8"))
+        source = str(args.config)
+        parsed = json.loads(Path(source).read_text(encoding="utf-8"))
         if not isinstance(parsed, dict):
-            raise ValueError(f"{args.config}: config must be a JSON object")
+            raise ValueError(f"{source}: config must be a JSON object")
+        _validate_option_types(parsed, source)
         options.update(parsed)
     if args.threshold is not None:
         options["threshold"] = args.threshold
+    if args.min_claim_chars is not None:
+        options["min_claim_chars"] = args.min_claim_chars
+    _validate_option_types(options, "options")
     return options
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
+    try:
+        args = parser.parse_args(argv)
+    except SystemExit as exc:  # argparse already printed a clear stderr message
+        return int(exc.code) if isinstance(exc.code, int) else 2
     try:
         options = _merge_options(args)
-    except (OSError, ValueError, json.JSONDecodeError) as exc:
-        print(f"{TOOL}: {exc}", file=sys.stderr)
-        return 2
-    try:
         rows = load_rows(args.data)
-    except FileNotFoundError:
-        print(f"{TOOL}: file not found: {args.data}", file=sys.stderr)
-        return 2
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"{TOOL}: {exc}", file=sys.stderr)
         return 2
     result = SourceLockLogic().run(rows, options)
     text = render(result, args.format, tool=TOOL, version=__version__)
     if args.output:
-        Path(args.output).write_text(text, encoding="utf-8")
+        try:
+            Path(args.output).write_text(text, encoding="utf-8")
+        except OSError as exc:
+            print(f"{TOOL}: {exc}", file=sys.stderr)
+            return 2
     else:
         print(text, end="" if text.endswith("\n") else "\n")
     if args.fail_on != "none":
