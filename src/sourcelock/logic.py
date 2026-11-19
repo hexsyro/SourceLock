@@ -99,9 +99,7 @@ def _split_sources(value: str) -> list[str]:
 
 def _split_claims(value: str) -> list[str]:
     return [
-        _restore_dots(sentence).strip()
-        for sentence in _SENTENCE_SPLIT.split(_protect_dots(value))
-        if sentence.strip()
+        _restore_dots(sentence).strip() for sentence in _SENTENCE_SPLIT.split(_protect_dots(value)) if sentence.strip()
     ]
 
 
@@ -256,8 +254,7 @@ class SourceLockLogic:
             if not source_raw:
                 skipped += 1
                 warnings.append(
-                    f"No source text found for claim '{claim_raw[:60]}…' "
-                    "(add a source_posts / sources column)."
+                    f"No source text found for claim '{claim_raw[:60]}…' (add a source_posts / sources column)."
                 )
                 continue
 
@@ -391,9 +388,7 @@ class SourceLockLogic:
                         )
                     )
 
-                weak_subclaims = [
-                    info["text"] for info in subclaim_infos if not info["supported"]
-                ]
+                weak_subclaims = [info["text"] for info in subclaim_infos if not info["supported"]]
                 if confidence >= threshold and weak_subclaims:
                     findings.append(
                         finding_envelope(
@@ -419,8 +414,7 @@ class SourceLockLogic:
             if not row_claims_checked:
                 all_short_rows += 1
                 warnings.append(
-                    f"Row {row_label}: all claims are shorter than min_claim_chars={min_chars}; "
-                    "nothing checked."
+                    f"Row {row_label}: all claims are shorter than min_claim_chars={min_chars}; nothing checked."
                 )
 
         if checked == 0:

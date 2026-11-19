@@ -68,9 +68,7 @@ def _validate_option_types(options: dict[str, Any], source: str) -> None:
     if "min_claim_chars" in options:
         value = options["min_claim_chars"]
         if isinstance(value, bool) or not isinstance(value, int):
-            raise ValueError(
-                f"{source}: 'min_claim_chars' must be an integer, got {type(value).__name__}: {value!r}"
-            )
+            raise ValueError(f"{source}: 'min_claim_chars' must be an integer, got {type(value).__name__}: {value!r}")
 
 
 def _merge_options(args: argparse.Namespace) -> dict[str, Any]:

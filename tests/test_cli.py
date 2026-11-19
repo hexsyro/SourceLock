@@ -1,4 +1,4 @@
-﻿"""CLI tests for SourceLock."""
+"""CLI tests for SourceLock."""
 
 from __future__ import annotations
 
